@@ -4,7 +4,11 @@
 
 复制了一个仓库，进行了些修改，防止原仓库被封
 
-环境变量：`GLADOS_COOKIE`（必要） 和 `PUSHPLUS_TOKEN`（非必要）
+环境变量：
+`GLADOS_COOKIE`（必要） 
+`PUSHPLUS_TOKEN`（非必要）
+`TELEGRAM_BOT_TOKEN`（非必要）-- telegram
+`TELEGRAM_CHAT_ID`（非必要）-- telegram
 
 `GLADOS_COOKIE`多个账号需使用 '&' 隔开，示例：cookie&cookie
 
