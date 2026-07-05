@@ -3,9 +3,7 @@ name: 开始每日签到
 on:
   workflow_dispatch:
   schedule:
-    # UTC 1点30分(北京时间 9点30分)
-    - cron: 30 1 * * *
-  # 标星时触发工作流程
+    - cron: '30 1 * * *'
   watch:
     types: [started]
 
@@ -13,9 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.10
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: "3.10"
       - name: Install requirements
@@ -23,9 +21,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       - name: Run checkin
-        run: |
-          python3 glados.py
-        env: 
-          GLADOS_COOKIE: "${{ secrets.GLADOS_COOKIE }}"
+        run: python3 glados.py
+        env:
+          GLADOS_COOKIE: ${{ secrets.GLADOS_COOKIE }}
           PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
       - uses: gautamkrishnar/keepalive-workflow@master
