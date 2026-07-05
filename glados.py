@@ -29,7 +29,7 @@ if __name__ == '__main__':
     #--------------------------------------------------------------------------------------------------------#  
         time = state.json()['data']['leftDays']
         time = time.split('.')[0]
-        curpoints = points.json()['points']
+        curpoints = points.json()['points'].split('.')[0]
         email = state.json()['data']['email']
         if 'message' in checkin.text:
             mess = checkin.json()['message']
@@ -45,8 +45,9 @@ if __name__ == '__main__':
     # --- 新增 Telegram 推送逻辑 ---
     tg_token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
     tg_chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
-    
+    print(f"tg_token:{tg_token},tg_chat_id:{tg_chat_id}")
     if tg_token != "" and tg_chat_id != "":
+        print('gogogo')
         tg_url = f"https://api.telegram.org/bot{tg_token}/sendMessage"
         tg_payload = {
             "chat_id": tg_chat_id,
