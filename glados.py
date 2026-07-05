@@ -42,4 +42,19 @@ if __name__ == '__main__':
     if sckey != "":
          requests.get('http://www.pushplus.plus/send?token=' + sckey + '&title='+email+'签到成功'+'&content='+sendContent)
 
+    # --- 新增 Telegram 推送逻辑 ---
+    tg_token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+    tg_chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
+    
+    if tg_token != "" and tg_chat_id != "":
+        tg_url = f"https://api.telegram.org/bot{tg_token}/sendMessage"
+        tg_payload = {
+            "chat_id": tg_chat_id,
+            "text": f"GLaDOS 签到结果:\n{sendContent}"
+        }
+        try:
+            requests.post(tg_url, data=tg_payload)
+        except Exception as e:
+            print(f"Telegram 推送失败: {e}")
+    # ------------------------------
 
