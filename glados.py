@@ -15,6 +15,7 @@ if __name__ == '__main__':
         exit(0)
     url= "https://glados.rocks/api/user/checkin"
     url2= "https://glados.rocks/api/user/status"
+    url3= "https://glados.cloud/api/user/points" #points
     referer = 'https://glados.rocks/console/checkin'
     origin = "https://glados.rocks"
     useragent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"
@@ -24,14 +25,16 @@ if __name__ == '__main__':
     for cookie in cookies:
         checkin = requests.post(url,headers={'cookie': cookie ,'referer': referer,'origin':origin,'user-agent':useragent,'content-type':'application/json;charset=UTF-8'},data=json.dumps(payload))
         state =  requests.get(url2,headers={'cookie': cookie ,'referer': referer,'origin':origin,'user-agent':useragent})
+        points = requests.get(url3,headers={'cookie': cookie ,'referer': referer,'origin':origin,'user-agent':useragent})
     #--------------------------------------------------------------------------------------------------------#  
         time = state.json()['data']['leftDays']
         time = time.split('.')[0]
+        curpoints = points.json()['points']
         email = state.json()['data']['email']
         if 'message' in checkin.text:
             mess = checkin.json()['message']
-            print(email+'----结果--'+mess+'----剩余('+time+')天')  # 日志输出
-            sendContent += email+'----'+mess+'----剩余('+time+')天\n'
+            print(email+'----结果--'+mess+'----剩余('+time+')天----当前points: '+curpoints)  # 日志输出
+            sendContent += email+'----'+mess+'----剩余('+time+')天----当前points: '+curpoints+'\n'
         else:
             requests.get('http://www.pushplus.plus/send?token=' + sckey + '&content='+email+'cookie已失效')
             print('cookie已失效')  # 日志输出
