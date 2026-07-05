@@ -10,12 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # 删除 uses: actions/checkout，改用 git 命令拉取（如果不需要代码仓库内容，甚至可以删掉这一步）
-      - name: Checkout
-        run: |
-          git init
-          git remote add origin https://github.com/${{ github.repository }}
-          git fetch
-          git checkout main
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: master  # 明确指定拉取 master 分支
       
       - name: Run checkin
         run: |
